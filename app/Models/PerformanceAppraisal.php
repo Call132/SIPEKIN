@@ -69,5 +69,9 @@ class PerformanceAppraisal extends Model
     {
         return $this->hasOne(Promotion::class);
     }
+    public function feedbacks(): HasOne
+    {
+        return $this->hasOne(feedbacks::class);
+    }
     
 }

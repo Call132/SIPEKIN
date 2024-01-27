@@ -13,13 +13,14 @@
                     <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </li>
-            @if (Auth::user()->role != 'HOD')
-                <li class="nav">
+            @if (Auth::user()->role != 'HOD' )
+            <li class="nav">
                 <a href="{{ url('/employee') }}" class="nav-link" style="line-height: 1;">
                     <i class="fas fa-users"></i><span>Karyawan</span>
                 </a>
             </li>
             @endif
+            @if (Auth::user()->role != 'Karyawan')
             <li class="nav">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-chart-bar"></i>
@@ -35,6 +36,7 @@
                             href="{{ url('/performance-appraisal/recommendation') }}"><span>Rekomendasi</span></a></li>
                 </ul>
             </li>
+            @endif
             <li class="nav">
                 <a href="{{ url('/hasilPenilaian') }}" class="nav-link" style="line-height: 1;">
                     <i class="fas fa-clipboard"></i><span>Hasil Penilaian</span>
@@ -48,6 +50,7 @@
             </li>
 
             @endif
+
         </ul>
     </aside>
 </div>

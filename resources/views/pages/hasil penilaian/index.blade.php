@@ -57,7 +57,6 @@
             </div>
         </div>
         @endif
-
     </section>
     <div class="row">
         <div class="col-12">
@@ -69,9 +68,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama Karyawan</th>
-                                    <th>Status</th>
                                     <th>Type</th>
-                                    <th>Tanggal</th>
+                                    <th>Tanggal Penilaian</th>
+                                    <th>Detail</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -80,15 +79,21 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $appraisal->employee->name }}</td>
-                                    <td>{{ $appraisal->status }}</td>
                                     <td>{{ $appraisal->type }}</td>
                                     <td>{{ date('d F Y', strtotime($appraisal->date)) }}</td>
                                     <td>
-                                        @if($appraisal->status == 'Diapprove oleh HRD' || $appraisal->status == 'Diapprove oleh GM')
+                                        @if (Auth::user()->role != 'HOD')
+                                        <a href="{{ route('feedback.show', $appraisal->id) }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($appraisal->status == 'Diapprove oleh HRD' || $appraisal->status ==
+                                        'Diapprove oleh GM')
                                         <form action="{{ route('appraisal.print', $appraisal->id) }}" method="post"
                                             style="display: inline-block;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success">Cetak</button>
+                                            <button type="submit" class="btn btn-success">Cetak <i
+                                                    class="fa-solid fa-print"></i></button>
                                         </form>
                                         @else
                                         <button type="submit" class="btn btn-secondary" disabled>Cetak</button>

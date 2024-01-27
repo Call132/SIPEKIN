@@ -13,6 +13,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbacksController;
 use App\Http\Controllers\HasilPenilaianController;
 use App\Http\Controllers\PerformanceAppraisalController;
 use App\Http\Controllers\ProfileController;
@@ -125,6 +126,10 @@ Route::middleware('web', 'auth')->group(function () {
     Route::post('/dashboard/{id}/gm', [DashboardController::class, 'approveGM'])->name('gm.approve');
     Route::post('/dashboard/{id}/reject', [DashboardController::class, 'reject'])->name('reject');
 
-    Route::get('/hasilPenilaian', [HasilPenilaianController::class, 'index']);
+    Route::get('/hasilPenilaian', [HasilPenilaianController::class, 'index'])->name('hasil.index');
     Route::post('/cetak/{id}', [HasilPenilaianController::class, 'cetak'])->name('appraisal.print');
+
+    Route::get('/feedback/{id}', [FeedbacksController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbacksController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback/{id}', [FeedbacksController::class, 'show'])->name('feedback.show');
 });
