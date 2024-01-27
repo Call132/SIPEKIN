@@ -20,7 +20,11 @@ class Employee extends Model
         'dateJoined',
         'dateInThePresentPosition',
     ];
-    
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'employee_id', 'uuid');
+    }
+
     public function performanceAppraisal(): HasMany
     {
         return $this->hasMany(PerformanceAppraisal::class);
@@ -36,5 +40,4 @@ class Employee extends Model
             $model->uuid = (string) Uuid::uuid4();
         });
     }
-    
 }

@@ -246,13 +246,26 @@
                                         <form action="{{ route('gm.approve', $appraisal->id) }}" method="post"
                                             class="d-inline-block">
                                             @csrf
-                                            <button type="submit" class="btn btn-success">Approve</button>
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
                                         </form>
+
                                         <form action="{{ route('reject', $appraisal->id) }}" method="post"
                                             class="d-inline-block">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-times"></i> Reject
+                                            </button>
                                         </form>
+                                        @if($appraisal->feedbacks)
+                                        <span class="badge badge-info">Feedback Sudah Diisi</span>
+                                        @else
+                                        <a href="{{ route('feedback.create', $appraisal->id) }}"
+                                            class="btn btn-primary ml-2">
+                                            <i class="fas fa-comment"></i> Tambah Feedback
+                                        </a>
+                                        @endif
                                         @else
                                         <button class="btn">
                                             <span class="badge badge-secondary">Penilaian Belum </span>
@@ -260,7 +273,6 @@
                                         @endif
                                     </td>
                                 </tr>
-
                                 @endif
                                 @endforeach
                             </tbody>

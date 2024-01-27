@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $data = Employee::orderBy('department')->get();
-        
+
         return view('pages.employee.index', compact('data'));
     }
     public function create()
@@ -27,7 +27,14 @@ class EmployeeController extends Controller
     {
         try {
             $employee = Employee::create($request->all());
- 
+            $user = User::create([
+                'username' => $employee->name,
+                'role' => 'Karyawan',
+                'email' => $request->input('email'),
+                'email_verified_at' => now(),
+                'password' => bcrypt('password'),
+                'employee_id' => $employee->uuid,
+            ]);
             return redirect()->route('employee.index')->with('success', 'Data created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['error' => $th->getMessage()]);
@@ -56,7 +63,9 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
 
-        $employee->delete();
+        if ($employee->user) {
+            $employee->user->delete();
+        }
         return redirect()->route('employee.index')->with('success', 'Data deleted successfully');
     }
     public function export()

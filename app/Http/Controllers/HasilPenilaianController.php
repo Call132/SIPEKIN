@@ -12,13 +12,18 @@ use App\Models\OverallRating;
 use App\Models\AttitudeTowardsWork;
 use App\Http\Controllers\Controller;
 use App\Models\PerformanceAppraisal;
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class HasilPenilaianController extends Controller
 {
     public function index()
     {
-        $appraisals = PerformanceAppraisal::whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
+        $user = Auth::user();
+        if ($user->role != 'Karyawan') {
+            $appraisals = PerformanceAppraisal::whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
+        }
+        $appraisals = PerformanceAppraisal::where('employee_uuid', $user->employee->uuid)->whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
 
         return view('pages.hasil penilaian.index', compact('appraisals'));
     }
@@ -26,8 +31,6 @@ class HasilPenilaianController extends Controller
     {
         try {
             $appraisal = PerformanceAppraisal::findOrFail($id);
-
-
 
             $performance = Performance::where('performance_appraisal_id', $id)->first();
             $attitude = AttitudeTowardsWork::where('performance_appraisal_id', $id)->first();
