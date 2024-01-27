@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
+
         User::create([
             'username' => 'admin',
             'role' => 'Admin',
@@ -24,5 +25,6 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('admin123'),
         ]);
+        
     }
 }
