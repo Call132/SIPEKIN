@@ -20,10 +20,10 @@ class HasilPenilaianController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->role != 'Karyawan') {
-            $appraisals = PerformanceAppraisal::whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
+        if ($user->role == 'Karyawan') {
+            $appraisals = PerformanceAppraisal::where('employee_uuid', $user->employee->uuid)->whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
         }
-        $appraisals = PerformanceAppraisal::where('employee_uuid', $user->employee->uuid)->whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
+        $appraisals = PerformanceAppraisal::whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
 
         return view('pages.hasil penilaian.index', compact('appraisals'));
     }
